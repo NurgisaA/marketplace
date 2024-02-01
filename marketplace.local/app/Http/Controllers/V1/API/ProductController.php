@@ -1,19 +1,34 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1\API;
 
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Http\Resources\V1\ProductsCollection;
+use App\Http\Resources\V1\ProductsResource;
+use App\Models\Category;
 use App\Models\Product;
+use App\Services\V1\ProductQuery;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $filter = new ProductQuery();
+        $queryItem = $filter->transform($request); // [[column,operator,value]]
+        $orderItem = $filter->transformOrder($request); // [[column,operator,value]]
+
+        $product = Product::query();
+
+        if (count($queryItem) == 0 || count($orderItem) == 0) {
+            return new ProductsCollection($product->paginate());
+        }
+
+        return new ProductsCollection($product->where($queryItem)->orderBy(...$orderItem)->paginate());
     }
 
     /**
@@ -21,7 +36,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return Category::all();
     }
 
     /**
@@ -37,7 +52,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return new ProductsResource($product);
     }
 
     /**

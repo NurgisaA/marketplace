@@ -16,8 +16,10 @@ class ColorFactory extends Factory
      */
     public function definition(): array
     {
+        $color = fake()->hexColor();
         return [
-            'title' => fake()->hexColor()
+            'title' => fake()->rgbColorAsArray(),
+            'value' => $color
         ];
     }
 }

@@ -18,7 +18,7 @@ class ProductControllerTest extends TestCase
                     'data' => [
                         '*' => [
                             'id',
-                            'category_id',
+                            'categoryId',
                             'title',
                             'description',
                             'price',
@@ -37,7 +37,7 @@ class ProductControllerTest extends TestCase
             ->assertJsonStructure(
                 [
                     'id',
-                    'category_id',
+                    'categoryId',
                     'title',
                     'description',
                     'price',

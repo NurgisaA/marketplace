@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\V1\API\CategoryController;
+use App\Http\Controllers\V1\API\ColorController;
+use App\Http\Controllers\V1\API\ProductController;
+use App\Http\Controllers\V1\API\SizeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +25,9 @@ Route::get('/healthcheck', function () {
     return response()->json(['status' => true], 200);
 }
 );
+
+
+Route::resource('products', ProductController::class);
+Route::resource('categories', CategoryController::class);
+Route::resource('sizes', SizeController::class);
+Route::resource('color', ColorController::class);

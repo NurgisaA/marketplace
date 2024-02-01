@@ -27,6 +27,7 @@ $table->foreign('post_id')
 ```
 
 
+php artisan make:resource V1/ProductsResource
 
 
 
