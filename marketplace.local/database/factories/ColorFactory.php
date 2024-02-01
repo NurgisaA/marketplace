@@ -18,7 +18,7 @@ class ColorFactory extends Factory
     {
         $color = fake()->hexColor();
         return [
-            'title' => fake()->rgbColorAsArray(),
+            'title' => fake()->hexColor(),
             'value' => $color
         ];
     }

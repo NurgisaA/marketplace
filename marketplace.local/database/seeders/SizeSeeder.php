@@ -25,6 +25,7 @@ class SizeSeeder extends Seeder
 
             DB::table('sizes')->insert([
                 'title' => $size,
+                'value' => $size,
             ]);
         }
 

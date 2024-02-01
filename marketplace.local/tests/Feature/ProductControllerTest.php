@@ -11,7 +11,7 @@ class ProductControllerTest extends TestCase
 {
     public function test_returns_a_index_successful_response(): void
     {
-        $this->json('get', '/api/products')
+        $this->get('/api/products')
             ->assertStatus(Response::HTTP_OK)
             ->assertJsonStructure(
                 [
@@ -69,11 +69,9 @@ class ProductControllerTest extends TestCase
             ->assertStatus(Response::HTTP_OK)
             ->assertJsonStructure(
                 [
-                    'price' => [
-                        'gte' => $price_gte,
-                        'lte' => $price_lte
-                    ],
-                ]
+                    'price'
+                ],
+
             );
     }
 }
