@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1\API;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Resources\V1\CategoryCollection;

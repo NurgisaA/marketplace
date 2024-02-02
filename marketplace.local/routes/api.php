@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\V1\API\Auth\LoginRegisterController;
 use App\Http\Controllers\V1\API\CategoryController;
 use App\Http\Controllers\V1\API\ColorController;
 use App\Http\Controllers\V1\API\ProductController;
@@ -21,11 +22,17 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/healthcheck', function () {
-    return response()->json(['status' => true], 200);
-}
-);
 
+Route::controller(LoginRegisterController::class)->group(function () {
+    Route::post('/register', 'register');
+    Route::post('/login', 'login');
+});
+
+
+Route::middleware("auth:sanctum")->group(function () {
+
+    Route::post('/logout', [LoginRegisterController::class, 'logout']);
+});
 
 Route::resource('products', ProductController::class)->only(['index', 'show']);
 Route::resource('categories', CategoryController::class)->only(['index', 'show']);

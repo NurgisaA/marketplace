@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\V1\API;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\V1\ProductsCollection;
 use App\Http\Resources\V1\ProductsResource;
-use App\Models\Category;
 use App\Models\Product;
 use App\Services\V1\ProductQuery;
 use Illuminate\Http\Request;
