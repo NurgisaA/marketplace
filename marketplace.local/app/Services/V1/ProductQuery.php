@@ -33,6 +33,10 @@ class ProductQuery
         'price' => ["asc", "desc"],
     ];
 
+    /**
+     * @param Request $request
+     * @return array|array[]
+     */
     public function transform(Request $request)
     {
         $eloQuery = [];
@@ -57,7 +61,11 @@ class ProductQuery
         return $eloQuery;
     }
 
-    public function transformOrder(Request $request)
+    /**
+     * @param Request $request
+     * @return array|string[]
+     */
+    public function transformOrder(Request $request): array
     {
         $orderBy = $request->query('_orderBy');
         foreach ($this->safeOrderParams as $param => $operators) {

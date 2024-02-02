@@ -20,7 +20,7 @@ class ProductController extends Controller
     {
         $filter = new ProductQuery();
         $queryItem = $filter->transform($request); // [[column,operator,value]]
-        $orderItem = $filter->transformOrder($request); // [[column,operator,value]]
+        $orderItem = $filter->transformOrder($request); // [column,type]
 
         $product = Product::query();
 
@@ -36,7 +36,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return Category::all();
+        //
     }
 
     /**

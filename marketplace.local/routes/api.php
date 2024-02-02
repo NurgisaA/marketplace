@@ -27,7 +27,7 @@ Route::get('/healthcheck', function () {
 );
 
 
-Route::resource('products', ProductController::class);
-Route::resource('categories', CategoryController::class);
+Route::resource('products', ProductController::class)->only(['index', 'show']);
+Route::resource('categories', CategoryController::class)->only(['index', 'show']);
 Route::resource('sizes', SizeController::class);
 Route::resource('color', ColorController::class);
