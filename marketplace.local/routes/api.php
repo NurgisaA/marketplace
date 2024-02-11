@@ -23,18 +23,25 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 Route::controller(LoginRegisterController::class)->group(function () {
     Route::post('/register', 'register');
-    Route::post('/login', 'login');
+    Route::post('/login', 'login')->name('login');
 });
 
-
+// authorized routes
 Route::middleware("auth:sanctum")->group(function () {
-
     Route::post('/logout', [LoginRegisterController::class, 'logout']);
+
 });
 
-Route::resource('products', ProductController::class)->only(['index', 'show']);
+
+// public routes
+Route::resource('products', ProductController::class)
+    ->only(['index', 'show'])
+    ->middleware('auth:sanctum')
+    ->middleware('restrictRole:admin,manager');
+
 Route::resource('categories', CategoryController::class)->only(['index', 'show']);
 Route::resource('sizes', SizeController::class);
 Route::resource('color', ColorController::class);
