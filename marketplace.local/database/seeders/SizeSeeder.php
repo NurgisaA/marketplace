@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Product;
+use App\Models\Size;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -29,6 +31,14 @@ class SizeSeeder extends Seeder
             ]);
         }
 
+
+        $size = Size::all();
+
+        $products = Product::all();
+
+        foreach ($products as $p){
+            $p->size()->sync($size);
+        }
 
     }
 }
