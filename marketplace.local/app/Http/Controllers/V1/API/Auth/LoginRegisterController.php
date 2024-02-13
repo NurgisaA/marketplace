@@ -4,19 +4,23 @@ namespace App\Http\Controllers\V1\API\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Traits\ApiResponseTrait;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class LoginRegisterController extends Controller
 {
+    use ApiResponseTrait;
+
     /**
      * Register a new user.
      *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(Request $request)
+    public function register(Request $request): JsonResponse
     {
         $validate = Validator::make($request->all(), [
             'name' => 'required|string|max:250',
@@ -25,11 +29,8 @@ class LoginRegisterController extends Controller
         ]);
 
         if ($validate->fails()) {
-            return response()->json([
-                'status' => 'failed',
-                'message' => 'Validation Error!',
-                'data' => $validate->errors(),
-            ], 403);
+            return $this->errorResponse("Validation error!", $validate->errors()->toArray(), 403);
+
         }
 
         $user = User::create([
@@ -38,16 +39,10 @@ class LoginRegisterController extends Controller
             'password' => Hash::make($request->password)
         ]);
 
-        $data['token'] = $user->createToken($request->email)->plainTextToken;
+        $data['token'] = $user->createToken($request->email, ["*"], now()->addWeek())->plainTextToken;
         $data['user'] = $user;
 
-        $response = [
-            'status' => 'success',
-            'message' => 'User is created successfully.',
-            'data' => $data,
-        ];
-
-        return response()->json($response, 201);
+        return $this->successResponse("User is created successfully.", $data, 200);
     }
 
     /**
@@ -56,7 +51,7 @@ class LoginRegisterController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
         $validate = Validator::make($request->all(), [
             'email' => 'required|string|email',
@@ -64,11 +59,7 @@ class LoginRegisterController extends Controller
         ]);
 
         if ($validate->fails()) {
-            return response()->json([
-                'status' => 'failed',
-                'message' => 'Validation Error!',
-                'data' => $validate->errors(),
-            ], 403);
+            return $this->errorResponse("Validation error!", $validate->errors()->toArray(), 403);
         }
 
         // Check email exist
@@ -76,22 +67,14 @@ class LoginRegisterController extends Controller
 
         // Check password
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'status' => 'failed',
-                'message' => 'Invalid credentials'
-            ], 401);
+            return $this->errorResponse("Invalid credentials", [], 401);
+
         }
 
-        $data['token'] = $user->createToken($request->email)->plainTextToken;
+        $data['token'] = $user->createToken($request->email, ["*"], now()->addWeek())->plainTextToken;
         $data['user'] = $user;
 
-        $response = [
-            'status' => 'success',
-            'message' => 'User is logged in successfully.',
-            'data' => $data,
-        ];
-
-        return response()->json($response, 200);
+        return $this->successResponse("User is logged in successfully.", $data, 200);
     }
 
     /**
@@ -100,13 +83,14 @@ class LoginRegisterController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout(Request $request)
+    public function logout(): JsonResponse
     {
+        try {
+            auth()->user()->tokens()->delete();
+        } catch (\Exception $e) {
+            return $this->errorResponse("Something went wrong!", [], 500);
+        }
 
-        auth()->user()->tokens()->delete();
-        return response()->json([
-            'status' => 'success',
-            'message' => 'User is logged out successfully'
-        ], 200);
+        return $this->successResponse("User has logged out!");
     }
 }
