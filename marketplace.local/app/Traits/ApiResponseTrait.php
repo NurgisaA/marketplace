@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Responses;
+namespace App\Traits;
 
 use Illuminate\Http\JsonResponse;
 
-trait ApiResponse
+trait ApiResponseTrait
 {
     /**
      *
