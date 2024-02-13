@@ -34,10 +34,22 @@ Route::controller(LoginRegisterController::class)->group(function () {
 // authorized routes
 Route::middleware("auth:sanctum")->group(function () {
     Route::post('/logout', [LoginRegisterController::class, 'logout']);
-    Route::get('/order', [OrderController::class, 'index']);
-    Route::post('/order', [OrderController::class, 'store']);
-});
 
+    // order routes
+    Route::resource('/order', OrderController::class)->only(['index', 'show']);
+
+    //get cart items
+    Route::get('/cart', [OrderController::class, 'index']);
+
+    // add product to cart
+    Route::put('/cart', [OrderController::class, 'store']);
+
+    // remove product from cart
+    Route::delete('/cart', [OrderController::class, 'store']);
+
+    // create order
+    Route::post('/cart/create-order', [OrderController::class, 'store']);
+});
 
 // public routes
 Route::resource('products', ProductController::class)
