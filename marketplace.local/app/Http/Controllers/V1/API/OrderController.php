@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers\V1\API;
 
+use App\Constants\OrderState;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreOrderRequest;
+use App\Http\Requests\UpdateOrderRequest;
+use App\Http\Resources\V1\OrderCollection;
+use App\Http\Resources\V1\OrderResource;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderCollection;
 use App\Http\Resources\OrderResource;
@@ -14,23 +20,20 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $order = auth()->user()->order();
+        $order = Order::query()
+            ->where("user_id", auth()->id())
+            ->whereIn('state', [OrderState::PENDING, OrderState::ORDERED]);
         // todo add filters
 
         // todo add sorting
 
-        // todo create a resource collection
-        return new OrderCollection($order);
+        return new OrderCollection($order->paginate(10));
     }
-
-
     /**
      * Display the specified resource.
      */
     public function show(Order $order)
     {
-        // todo check if the order belongs to the user
-        // todo create a resource
         return new OrderResource($order);
     }
 
