@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\OrderController;
 use App\Http\Controllers\V1\API\Auth\LoginRegisterController;
+use App\Http\Controllers\V1\API\CartController;
 use App\Http\Controllers\V1\API\CategoryController;
 use App\Http\Controllers\V1\API\ColorController;
+use App\Http\Controllers\V1\API\OrderController;
 use App\Http\Controllers\V1\API\ProductController;
 use App\Http\Controllers\V1\API\SizeController;
-use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -39,16 +39,16 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::resource('/order', OrderController::class)->only(['index', 'show']);
 
     //get cart items
-    Route::get('/cart', [OrderController::class, 'index']);
+    Route::get('/cart', [CartController::class, 'cartItems']);
 
     // add product to cart
-    Route::put('/cart', [OrderController::class, 'store']);
+    Route::put('/cart', [CartController::class, 'addCartProduct']);
 
     // remove product from cart
-    Route::delete('/cart', [OrderController::class, 'store']);
+    Route::delete('/cart', [CartController::class, 'removeCartProduct']);
 
     // create order
-    Route::post('/cart/create-order', [OrderController::class, 'store']);
+    Route::post('/cart/create-order', [CartController::class, 'changeOrderStateToPending']);
 });
 
 // public routes

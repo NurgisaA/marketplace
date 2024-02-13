@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1\API;
 
+use App\Constants\OrderState;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\V1\OrderCollection;
@@ -15,12 +17,14 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $order = auth()->user()->order();
+        $order = Order::query()
+            ->where("user_id", auth()->id())
+            ->whereIn('state', [OrderState::PENDING, OrderState::ORDERED]);
         // todo add filters
 
         // todo add sorting
 
-        return new OrderCollection($order);
+        return new OrderCollection($order->paginate(10));
     }
 
     /**
