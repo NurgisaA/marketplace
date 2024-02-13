@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Constants\OrderState;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
-use App\Http\Resources\OrderCollection;
-use App\Http\Resources\OrderResource;
+use App\Http\Resources\V1\OrderCollection;
+use App\Http\Resources\V1\OrderResource;
 use App\Models\Order;
-use App\Models\Product;
 
 class OrderController extends Controller
 {
