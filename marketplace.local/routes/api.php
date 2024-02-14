@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::controller(LoginRegisterController::class)->group(function () {
     Route::post('/register', 'register');
-    Route::post('/login', 'login')->name('login');
+    Route::post('/login', 'login');
 });
 
 // authorized routes
