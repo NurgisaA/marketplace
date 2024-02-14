@@ -10,7 +10,17 @@ class Product extends Model
     use HasFactory;
     protected $perPage = 12;
 
+    protected $fillable = [
+        'title',
+        'description',
+        'price',
+        'category_id',
+        'image',
+    ];
 
+    protected $casts = [
+        'image' => 'array',
+    ];
     public function category()
     {
         return $this->belongsTo(Category::class);
