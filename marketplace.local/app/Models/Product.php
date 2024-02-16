@@ -18,11 +18,16 @@ class Product extends Model
 
     public function color()
     {
-        return $this->hasMany(Color::class);
+        return $this->belongsToMany(Color::class);
     }
 
     public function size()
     {
-        return $this->hasMany(Size::class);
+        return $this->belongsToMany(Size::class);
+    }
+
+    public function order()
+    {
+        return $this->belongsToMany(Order::class, "product_order");
     }
 }

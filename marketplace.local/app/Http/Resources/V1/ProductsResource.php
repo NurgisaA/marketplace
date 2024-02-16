@@ -18,6 +18,8 @@ class ProductsResource extends JsonResource
             "id"=> $this->id,
             "categoryId"=> $this->category_id,
             "title"=> $this->title,
+            "color"=> new ColorCollection($this->color),
+            "size"=> new SizeCollection($this->size),
             "description"=> $this->description,
             "price"=> $this->price,
             "image"=> $this->image,

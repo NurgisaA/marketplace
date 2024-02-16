@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
 
-            $table->enum('role', [UserRoles::ADMIN->value, UserRoles::MODERATOR->value, UserRoles::USER->value])->default(UserRoles::USER->value);
+            $table->enum('role', UserRoles::values())->default(UserRoles::USER->value);
 
             $table->timestamps();
         });

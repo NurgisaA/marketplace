@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants\OrderState;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,18 +12,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('category_id');
-
-            $table->foreign('category_id')
+            $table->float('amount');
+            $table->enum("state", OrderState::values())->default(OrderState::DRAFT);
+            $table->unsignedBigInteger("user_id");
+            $table->foreign('user_id')
                 ->references('id')
-                ->on('categories')->onDelete('cascade');
-
-            $table->string('title');
-            $table->text('description')->nullable();
-            $table->decimal('price');
-            $table->string("image")->nullable();
+                ->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('orders');
     }
 };
