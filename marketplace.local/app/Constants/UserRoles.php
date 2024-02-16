@@ -2,6 +2,8 @@
 
 namespace App\Constants;
 
+use App\Traits\EnumToArray;
+
 enum UserRoles: string
 {
     use EnumToArray;
