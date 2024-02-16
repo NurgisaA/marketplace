@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1\API\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Traits\ApiResponseTrait;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -17,8 +18,8 @@ class LoginRegisterController extends Controller
     /**
      * Register a new user.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return JsonResponse
      */
     public function register(Request $request): JsonResponse
     {
@@ -48,8 +49,8 @@ class LoginRegisterController extends Controller
     /**
      * Authenticate the user.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return JsonResponse
      */
     public function login(Request $request): JsonResponse
     {
@@ -80,14 +81,14 @@ class LoginRegisterController extends Controller
     /**
      * Log out the user from application.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return JsonResponse
      */
     public function logout(): JsonResponse
     {
         try {
             auth()->user()->tokens()->delete();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->errorResponse("Something went wrong!", [], 500);
         }
 
