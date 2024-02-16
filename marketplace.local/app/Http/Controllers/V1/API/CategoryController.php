@@ -19,21 +19,6 @@ class CategoryController extends Controller
         return new CategoryCollection(Category::paginate(50));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreCategoryRequest $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
@@ -41,29 +26,5 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         return new CategoryResource($category);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateCategoryRequest $request, Category $category)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Category $category)
-    {
-        //
     }
 }
