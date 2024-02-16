@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\V1\API\CartController;
+use App\Http\Controllers\V1\API\OrderController;
 use App\Http\Controllers\V1\API\Auth\LoginRegisterController;
 use App\Http\Controllers\V1\API\CategoryController;
 use App\Http\Controllers\V1\API\ColorController;
 use App\Http\Controllers\V1\API\ProductController;
 use App\Http\Controllers\V1\API\SizeController;
-use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
