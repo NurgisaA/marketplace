@@ -43,5 +43,5 @@ Route::resource('products', ProductController::class)
 
 
 Route::resource('categories', CategoryController::class)->only(['index', 'show']);
-Route::resource('sizes', SizeController::class);
-Route::resource('color', ColorController::class);
+Route::resource('sizes', SizeController::class)->only(['index', 'show']);
+Route::resource('colors', ColorController::class)->only(['index', 'show']);
