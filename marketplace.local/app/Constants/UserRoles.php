@@ -15,4 +15,9 @@ enum UserRoles: string
     {
         return [self::ADMIN->value, self::MODERATOR->value];
     }
+
+    public static function formatted()
+    {
+        return array_combine(self::values(), self::values());
+    }
 }

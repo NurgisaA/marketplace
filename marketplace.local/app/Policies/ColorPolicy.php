@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Constants\UserRoles;
 use App\Models\Color;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -13,7 +14,7 @@ class ColorPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -21,6 +22,7 @@ class ColorPolicy
      */
     public function view(User $user, Color $color): bool
     {
+        return in_array($user->role, UserRoles::getAdmins());
         //
     }
 
@@ -29,6 +31,7 @@ class ColorPolicy
      */
     public function create(User $user): bool
     {
+        return in_array($user->role, UserRoles::getAdmins());
         //
     }
 
@@ -37,6 +40,7 @@ class ColorPolicy
      */
     public function update(User $user, Color $color): bool
     {
+        return in_array($user->role, UserRoles::getAdmins());
         //
     }
 
@@ -45,6 +49,7 @@ class ColorPolicy
      */
     public function delete(User $user, Color $color): bool
     {
+        return in_array($user->role, UserRoles::getAdmins());
         //
     }
 
@@ -53,6 +58,7 @@ class ColorPolicy
      */
     public function restore(User $user, Color $color): bool
     {
+        return in_array($user->role, UserRoles::getAdmins());
         //
     }
 
@@ -61,6 +67,7 @@ class ColorPolicy
      */
     public function forceDelete(User $user, Color $color): bool
     {
+        return in_array($user->role, UserRoles::getAdmins());
         //
     }
 }

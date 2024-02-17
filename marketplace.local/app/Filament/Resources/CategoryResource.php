@@ -2,18 +2,20 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProductResource\Pages;
-use App\Filament\Resources\ProductResource\RelationManagers;
-use App\Models\Product;
+use App\Filament\Resources\CategoryResource\Pages;
+use App\Filament\Resources\CategoryResource\RelationManagers;
+use App\Models\Category;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ProductResource extends Resource
+class CategoryResource extends Resource
 {
-    protected static ?string $model = Product::class;
+    protected static ?string $model = Category::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -24,31 +26,13 @@ class ProductResource extends Resource
                 Forms\Components\TextInput::make('title')
                     ->required()
                     ->string()
-                    ->maxValue(254)
-                ,
-                Forms\Components\RichEditor::make('description')
+                    ->maxValue(254),
+                Forms\Components\Textarea::make('description')
                     ->required()
                     ->string(),
-
-                Forms\Components\TextInput::make('price')
-                    ->required()
-                    ->numeric(),
-
-                Forms\Components\Select::make('category_id')
-                    ->relationship('category', 'title',),
-
-                Forms\Components\Select::make('size')
-                    ->multiple()
-                    ->relationship(titleAttribute: 'title'),
-
-                Forms\Components\Select::make('color')
-                    ->multiple()
-                    ->relationship(titleAttribute: 'title'),
-
                 Forms\Components\FileUpload::make('image')
                     ->image()
                     ->reorderable()
-                    ->multiple()
             ]);
     }
 
@@ -57,9 +41,6 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title'),
-                Tables\Columns\TextColumn::make('category.title'),
-                Tables\Columns\TextColumn::make('price'),
-
             ])
             ->filters([
                 //
@@ -84,9 +65,9 @@ class ProductResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProducts::route('/'),
-            'create' => Pages\CreateProduct::route('/create'),
-            'edit' => Pages\EditProduct::route('/{record}/edit'),
+            'index' => Pages\ListCategories::route('/'),
+            'create' => Pages\CreateCategory::route('/create'),
+            'edit' => Pages\EditCategory::route('/{record}/edit'),
         ];
     }
 }
