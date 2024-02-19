@@ -25,11 +25,12 @@ class UserResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')->required(),
-                Forms\Components\TextInput::make('email')->email()->disabled(),
+                Forms\Components\TextInput::make('email')->email(),
                 Forms\Components\TextInput::make('password')->password()->revealable(),
                 Forms\Components\Select::make('role')
                     ->string()
-                    ->options(UserRoles::formatted()),
+                    ->options(UserRoles::formatted())
+                    ->has,
 
             ]);
     }

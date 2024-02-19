@@ -4,9 +4,8 @@ namespace App\Filament\Resources\OrderResource\Pages;
 
 use App\Constants\OrderState;
 use App\Filament\Resources\OrderResource;
-use App\Models\Order;
 use Filament\Actions;
-use Filament\Facades\Filament;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 
 class EditOrder extends EditRecord
@@ -17,14 +16,27 @@ class EditOrder extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
-            Actions\Action::make('confirm')->action(function () {
-                $order = Order::find($this->data['id']);
-                if (in_array($order->state, [OrderState::ORDERED->value, OrderState::DRAFT->value])) {
-                    return;
-                }
-                $order->state = OrderState::ORDERED->value;
-                $order->save();
-            })->color('success'),
+            Actions\Action::make('Confirm')
+                ->color('success')
+                ->requiresConfirmation()
+                ->action('setStateToOrdered')
+                ->url(fn(): string => route('filament.admin.resources.orders.index', ['post' => $this->record->id]))
         ];
+    }
+
+    public function setStateToOrdered(): void
+    {
+        if ($this->record->state == OrderState::PENDING->value) {
+            $this->record->state = OrderState::ORDERED->value;
+            $this->record->save();
+        } else {
+            Notification::make()
+                ->danger()
+                ->title('Error')
+                ->body("The recording doesn't need to be confirmed")
+                ->persistent()
+                ->send();
+
+        }
     }
 }
