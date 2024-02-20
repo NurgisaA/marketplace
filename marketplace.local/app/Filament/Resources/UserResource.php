@@ -29,8 +29,7 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('password')->password()->revealable(),
                 Forms\Components\Select::make('role')
                     ->string()
-                    ->options(UserRoles::formatted())
-                    ->has,
+                    ->options(UserRoles::formatted()),
 
             ]);
     }
