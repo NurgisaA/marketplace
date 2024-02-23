@@ -20,7 +20,7 @@ class EditOrder extends EditRecord
                 ->color('success')
                 ->requiresConfirmation()
                 ->action('setStateToOrdered')
-                ->url(fn(): string => route('filament.admin.resources.orders.index', ['post' => $this->record->id]))
+//                ->url(fn(): string => route('filament.admin.resources.orders.index', ['post' => $this->record->id]))
         ];
     }
 
