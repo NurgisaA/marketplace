@@ -14,6 +14,7 @@ class OrderResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $this->resource->with(['size', 'color']);
         return [
             "id" => $this->id,
             "amount" => $this->amount,

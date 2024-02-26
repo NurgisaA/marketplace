@@ -13,10 +13,9 @@ class CartController extends Controller
     public function cartItems()
     {
 
-        $order = Order::with('user')
+        $order = Order::with(['user', 'product'])
             ->where([['state', '=', OrderState::DRAFT], ['user_id', '=', auth()->id()]])
             ->first();
-
         if (!$order) {
             $order = Order::create([
                 "state" => OrderState::DRAFT,
