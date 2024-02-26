@@ -39,7 +39,7 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::post('/logout', [LoginRegisterController::class, 'logout']);
 
     // order routes
-    Route::resource('/order', OrderController::class)->only(['index', 'show']);
+    Route::apiResource('/order', OrderController::class)->only(['index', 'show']);
 
     //get cart items
     Route::get('/cart', [CartController::class, 'cartItems']);
@@ -55,10 +55,10 @@ Route::middleware("auth:sanctum")->group(function () {
 });
 
 // public routes
-Route::resource('products', ProductController::class)
+Route::apiResource('products', ProductController::class)
     ->only(['index', 'show']);
 
 
-Route::resource('categories', CategoryController::class)->only(['index', 'show']);
-Route::resource('sizes', SizeController::class)->only(['index', 'show']);
-Route::resource('colors', ColorController::class)->only(['index', 'show']);
+Route::apiResource('categories', CategoryController::class)->only(['index', 'show']);
+Route::apiResource('sizes', SizeController::class)->only(['index', 'show']);
+Route::apiResource('colors', ColorController::class)->only(['index', 'show']);

@@ -23,6 +23,7 @@ class ProductFactory extends Factory
             "title"=> fake()->word(),
             "description"=> fake()->text(),
             'price' => fake()->numberBetween(10, 100000),
+            'image' => null
         ];
     }
 }

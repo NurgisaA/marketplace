@@ -20,7 +20,7 @@ class CategoryFactory extends Factory
         return [
             'title' => fake()->word(),
             'description' => fake()->text(),
-            'image' => fake()->imageUrl()
+            'image' => null
         ];
     }
 }

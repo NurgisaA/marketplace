@@ -17,7 +17,7 @@ class OrderController extends Controller
     {
         $order = Order::query()
             ->where("user_id", auth()->id())
-            ->whereIn('state', [OrderState::PENDING, OrderState::ORDERED]);
+            ->whereIn('state', [OrderState::PENDING->value, OrderState::ORDERED->value]);
         // todo add filters
 
         // todo add sorting
@@ -29,6 +29,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
+
         return new OrderResource($order);
     }
 

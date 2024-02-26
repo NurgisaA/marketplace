@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Resources\V1\CategoryCollection;
 use App\Http\Resources\V1\CategoryResource;
 use App\Models\Category;
+use App\Traits\ApiResponseTrait;
 
 class CategoryController extends Controller
 {

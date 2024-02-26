@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -18,9 +19,14 @@ class Product extends Model
         'image',
     ];
 
-    protected $casts = [
-        'image' => 'array',
-    ];
+    public function getImageUrl()
+    {
+        if (!$this->image) {
+            return null;
+        }
+        return config('app.url') . Storage::url($this->image);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
