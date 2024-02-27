@@ -12,7 +12,7 @@ class CartController extends Controller
 {
     public function cartItems()
     {
-
+        auth()->user();
         $order = Order::with(['user', 'product'])
             ->where([['state', '=', OrderState::DRAFT], ['user_id', '=', auth()->id()]])
             ->first();
