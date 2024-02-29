@@ -135,8 +135,15 @@ class CartController extends Controller
 
     public function changeOrderStateToPending()
     {
+        $data = request()->validate([
+            'address'    => 'required|string|max:240',
+        ]);
+
         $order = Order::with('user')
-            ->where([['state', '=', OrderState::DRAFT->value], ['user_id', '=', auth()->id()]])
+            ->where([
+                ['state', '=', OrderState::DRAFT->value],
+                ['user_id', '=', auth()->id()]
+            ])
             ->first();
 
         if (!$order) {
@@ -151,6 +158,7 @@ class CartController extends Controller
         }
 
         $order->state = OrderState::PENDING->value;
+        $order->address = $data['address'];
         $order->save();
 
         return new OrderResource($order);
