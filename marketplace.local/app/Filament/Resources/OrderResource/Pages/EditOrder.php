@@ -29,6 +29,15 @@ class EditOrder extends EditRecord
         if ($this->record->state == OrderState::PENDING->value) {
             $this->record->state = OrderState::ORDERED->value;
             $this->record->save();
+
+
+
+            Notification::make()
+                ->success()
+                ->title('Success')
+                ->body("The recording confirmed!")
+                ->persistent()
+                ->send();
         } else {
             Notification::make()
                 ->danger()

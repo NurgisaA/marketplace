@@ -137,6 +137,7 @@ class CartController extends Controller
     {
         $data = request()->validate([
             'address'    => 'required|string|max:240',
+            'phone'    => 'required|min:11|max:11',
         ]);
 
         $order = Order::with('user')
@@ -159,6 +160,7 @@ class CartController extends Controller
 
         $order->state = OrderState::PENDING->value;
         $order->address = $data['address'];
+        $order->phone = $data['phone'];
         $order->save();
 
         return new OrderResource($order);

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum("state", OrderState::values())
                 ->default(OrderState::DRAFT);
             $table->text('address')->nullable();
+            $table->string('phone')->nullable();
             $table->unsignedBigInteger("user_id");
             $table->foreign('user_id')
                 ->references('id')
