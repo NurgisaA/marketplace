@@ -36,4 +36,12 @@ class Product extends Model
     {
         return $this->belongsToMany(Order::class, "product_order");
     }
+
+    public function getFullImageUrl()
+    {
+        if ($this->image){
+            return config('app.url'). "/storage/". $this->image;
+        }
+        return null;
+    }
 }
