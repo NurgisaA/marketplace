@@ -22,8 +22,8 @@ class ProductsResource extends JsonResource
             "size"=> new SizeCollection($this->size),
             "description"=> $this->description,
             "price"=> $this->price,
-            "image"=> $this->image,
-            "pivot" => $this->pivot,
+            "image"=> $this->getImageUrl(),
+            "pivot" => $this->pivot
         ];
     }
 }

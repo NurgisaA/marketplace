@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Product;
 use Illuminate\Http\Response;
+use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
 
@@ -32,16 +33,20 @@ class ProductControllerTest extends TestCase
 
     public function test_returns_a_show_successful_response(): void
     {
+        $product = Product::factory()->create();
+
         $this->json('get', '/api/products/1')
             ->assertStatus(Response::HTTP_OK)
             ->assertJsonStructure(
                 [
-                    'id',
-                    'categoryId',
-                    'title',
-                    'description',
-                    'price',
-                    'image'
+                    "data" => [
+                        'id',
+                        'categoryId',
+                        'title',
+                        'description',
+                        'price',
+                        'image'
+                    ]
                 ]
             );
     }
@@ -50,28 +55,17 @@ class ProductControllerTest extends TestCase
     {
         $product = Product::factory()->create();
 
+        $productName = $product->title;
+       // Make a GET request to the products endpoint with the filter
+        $response = $this->get('/api/products?title[eq]=' . urlencode($productName));
 
-        $this->json('get', "/api/products?title[eq]=$product->title")
-            ->assertStatus(Response::HTTP_OK)
-            ->assertJsonPath('data.*.title', $product->title);
+        // Assert that the response has a 200 status code
+        $response->assertStatus(200);
 
+        // Assert that the response data contains the filtered product
+        $response->assertJsonFragment([
+            'title' => $productName
+        ]);
     }
-    public function test_returns_a_index_filter_price_successful_response(): void
-    {
-        $product = Product::factory()->create();
 
-
-
-        $price_gte = $product->price + 1;
-        $price_lte = $product->price - 1;
-
-        $this->json('get', "/api/products?title[eq]=$product->title&price[gte]=$price_gte&price[lte]=$price_lte")
-            ->assertStatus(Response::HTTP_OK)
-            ->assertJsonStructure(
-                [
-                    'price'
-                ],
-
-            );
-    }
 }

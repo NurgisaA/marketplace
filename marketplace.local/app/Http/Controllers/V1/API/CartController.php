@@ -7,18 +7,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\OrderResource;
 use App\Models\Order;
 use App\Models\Product;
+use App\Traits\ApiResponseTrait;
 
 class CartController extends Controller
 {
+    use ApiResponseTrait;
     public function cartItems()
     {
 
         $order = Order::with(['user', 'product'])
-            ->where([['state', '=', OrderState::DRAFT], ['user_id', '=', auth()->id()]])
+            ->where([['state', '=', OrderState::DRAFT->value], ['user_id', '=', auth()->id()]])
             ->first();
         if (!$order) {
             $order = Order::create([
-                "state" => OrderState::DRAFT,
+                "state" => OrderState::DRAFT->value,
                 'user_id' => auth()->id(),
                 "amount" => "0"
             ]);
@@ -37,13 +39,13 @@ class CartController extends Controller
         ]);
 
         $order = Order::with('user')
-            ->where([['state', '=', OrderState::DRAFT], ['user_id', '=', auth()->id()]])
+            ->where([['state', '=', OrderState::DRAFT->value], ['user_id', '=', auth()->id()]])
             ->first();
 
         if (!$order) {
             $order = Order::create([
                 'user_id' => auth()->id(),
-                'state' => OrderState::DRAFT
+                'state' => OrderState::DRAFT->value
             ]);
         }
 
@@ -57,9 +59,7 @@ class CartController extends Controller
             ->find($data['product_id']);
 
         if (!$product) {
-            return response()->json([
-                'message' => 'Product not found'
-            ], 403);
+            return $this->errorResponse('Product not found', status: 403);
         }
         $amount = 0;
 
@@ -102,13 +102,13 @@ class CartController extends Controller
         ]);
 
         $order = Order::with('user')
-            ->where([['state', '=', OrderState::DRAFT], ['user_id', '=', auth()->id()]])
+            ->where([['state', '=', OrderState::DRAFT->value], ['user_id', '=', auth()->id()]])
             ->first();
 
         if (!$order) {
             $order = Order::create([
                 'user_id' => auth()->id(),
-                'state' => OrderState::DRAFT
+                'state' => OrderState::DRAFT->value
             ]);
         }
 
@@ -135,23 +135,21 @@ class CartController extends Controller
     public function changeOrderStateToPending()
     {
         $order = Order::with('user')
-            ->where([['state', '=', OrderState::DRAFT], ['user_id', '=', auth()->id()]])
+            ->where([['state', '=', OrderState::DRAFT->value], ['user_id', '=', auth()->id()]])
             ->first();
 
         if (!$order) {
             $order = Order::create([
                 'user_id' => auth()->id(),
-                'state' => OrderState::DRAFT
+                'state' => OrderState::DRAFT->value
             ]);
         }
 
         if ($order->product->count() === 0) {
-            return response()->json([
-                'message' => 'Cart is empty'
-            ], 403);
+            return $this->errorResponse('Cart is empty', status: 403);
         }
 
-        $order->state = OrderState::PENDING;
+        $order->state = OrderState::PENDING->value;
         $order->save();
 
         return new OrderResource($order);

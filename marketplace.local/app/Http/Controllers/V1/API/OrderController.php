@@ -17,29 +17,23 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $order = auth()->user()->order()->whereIn('state', [OrderState::PENDING, OrderState::ORDERED])->get();
+        $order = Order::query()
+            ->where("user_id", auth()->id())
+            ->whereIn('state', [OrderState::PENDING->value, OrderState::ORDERED->value]);
         // todo add filters
 
         // todo add sorting
 
-        // todo create a resource collection
-        return new OrderCollection($order);
+        return new OrderCollection($order->paginate(10));
     }
-
-
     /**
      * Display the specified resource.
      */
     public function show(Order $order)
     {
-        // todo check if the order belongs to the user
-        // todo create a resource
-
-
         if (!$order || $order->user_id != auth()->id()) {
             return $this->errorResponse('Not found!', [], 404);
         }
-
         return new OrderResource($order);
     }
 

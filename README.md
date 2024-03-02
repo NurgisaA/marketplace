@@ -31,6 +31,15 @@ php artisan make:resource V1/ProductsResource
 
 
 
+## Установка
+> composer install
+
+> php artisan migrate:fresh --seed
+
+> php artisan storage:link
+ 
+  
+
 ### Полезное:
 - [Документация laravel](https://laravel.com/docs/10.x/installation)
 - [Laravel Связи](https://laravel.com/docs/10.x/installation)

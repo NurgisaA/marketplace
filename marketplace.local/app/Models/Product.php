@@ -4,12 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
     use HasFactory;
     protected $perPage = 12;
 
+    protected $fillable = [
+        'title',
+        'description',
+        'price',
+        'category_id',
+        'image',
+    ];
+
+    public function getImageUrl()
+    {
+        if (!$this->image) {
+            return null;
+        }
+        return config('app.url') . Storage::url($this->image);
+    }
 
     public function category()
     {
