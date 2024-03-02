@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Constants\UserRoles;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -13,7 +14,7 @@ class OrderPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return in_array($user->role, UserRoles::getAdmins());
     }
 
     /**
@@ -21,7 +22,7 @@ class OrderPolicy
      */
     public function view(User $user, Order $order): bool
     {
-        //
+        return in_array($user->role, UserRoles::getAdmins());
     }
 
     /**
@@ -29,7 +30,7 @@ class OrderPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return in_array($user->role, UserRoles::getAdmins());
     }
 
     /**
@@ -37,7 +38,7 @@ class OrderPolicy
      */
     public function update(User $user, Order $order): bool
     {
-        //
+        return in_array($user->role, UserRoles::getAdmins());
     }
 
     /**
@@ -45,7 +46,7 @@ class OrderPolicy
      */
     public function delete(User $user, Order $order): bool
     {
-        //
+        return in_array($user->role, UserRoles::getAdmins());
     }
 
     /**
@@ -53,7 +54,7 @@ class OrderPolicy
      */
     public function restore(User $user, Order $order): bool
     {
-        //
+        return in_array($user->role, UserRoles::getAdmins());
     }
 
     /**
@@ -61,6 +62,6 @@ class OrderPolicy
      */
     public function forceDelete(User $user, Order $order): bool
     {
-        //
+        return in_array($user->role, UserRoles::getAdmins());
     }
 }
