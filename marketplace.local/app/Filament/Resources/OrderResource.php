@@ -2,13 +2,11 @@
 
 namespace App\Filament\Resources;
 
-use App\Constants\OrderState;
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Models\Order;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -29,11 +27,17 @@ class OrderResource extends Resource
                 Forms\Components\TextInput::make('state')
                     ->disabled(),
 
+                Forms\Components\TextInput::make('phone')
+                    ->columnSpanFull()
+                    ->disabled(),
+
                 Forms\Components\Select::make('user')
+                    ->columnSpanFull()
                     ->disabled()
                     ->relationship(titleAttribute: 'name'),
 
                 Forms\Components\Repeater::make('product')
+                    ->columnSpanFull()
                     ->relationship()
                     ->schema([
                         Forms\Components\TextInput::make('title'),

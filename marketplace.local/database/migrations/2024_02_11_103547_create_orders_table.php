@@ -14,12 +14,17 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->float('amount')->default(0);
-            $table->enum("state", OrderState::values())->default(OrderState::DRAFT);
+            $table->unsignedFloat('amount')
+                ->default(0);
+            $table->enum("state", OrderState::values())
+                ->default(OrderState::DRAFT);
+            $table->text('address')->nullable();
+            $table->string('phone')->nullable();
             $table->unsignedBigInteger("user_id");
             $table->foreign('user_id')
                 ->references('id')
-                ->on('users')->onDelete('cascade');
+                ->on('users')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
